@@ -1,0 +1,2 @@
+linked list implementation: every operation takes constant time in the worst case, but extra time and space is needed to deal with the links
+resizing array implementation: every operation takes constant amortized time, less wasted space
