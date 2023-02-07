@@ -9,6 +9,10 @@ bool less<Key extends Comparable>(Key v, Key w) {
   return v.compareTo(w) < 0;
 }
 
+bool larger<Key extends Comparable>(Key v, Key w){
+  return v.compareTo(w) > 0;
+}
+
 void exch<Key extends Comparable>(List<Key?> a, int i, int j) {
   Key swap = a[i]!;
   a[i] = a[j];
