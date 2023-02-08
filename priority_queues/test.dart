@@ -1,14 +1,18 @@
-//import 'unordered_max_pq.dart';
-import 'binary_heap.dart';
 import 'dart:math';
 
+import 'median_binary_heap.dart';
+
 void main(List<String> args) {
-  final bh = BinaryHeap<int>();
   Random rand = new Random();
-  for(int i = 0; i < 100; i++){
-    bh.insert(rand.nextInt(1000));
+  // List<int> randomList = List.empty(growable: true);
+  // for(int i = 0; i < 10000; i++){
+  //   randomList.add(rand.nextInt(1000));
+  // }
+  List<int> randomList = [1,2,3, 4, 4];
+  print(randomList);
+  final medianPQ = MedianBinaryHeap<int>();
+  for(var value in randomList){
+    medianPQ.insert(value);
   }
-  for(int i = 0; i < 10; i++){
-    print(bh.delMax());
-  }
+  print(medianPQ.median);
 }

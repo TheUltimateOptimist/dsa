@@ -1,7 +1,5 @@
-import '../util/sorting.dart';
-
-class BinaryHeap<Key extends Comparable>{
-  BinaryHeap() : _content = List<Key>.empty(growable: true);
+class MaxBinaryHeap<Key extends Comparable>{
+  MaxBinaryHeap() : _content = List<Key>.empty(growable: true);
 
   List<Key> _content;
 
@@ -41,11 +39,12 @@ class BinaryHeap<Key extends Comparable>{
   _content[indexTwo] = swap;
 }
 
-  void _swim(int nodeIndex){
+  int _swim(int nodeIndex){
     while(nodeIndex > 0 && _less(_parentIndex(nodeIndex), nodeIndex)){
       _exch(_parentIndex(nodeIndex), nodeIndex);
       nodeIndex = _parentIndex(nodeIndex);
     };
+    return nodeIndex;
   }
 
   void _sink(int nodeIndex){
@@ -64,9 +63,14 @@ class BinaryHeap<Key extends Comparable>{
     }
   }
 
-  void insert(Key item){
+  Key get max{
+    assert(_content.length > 0);
+    return _content[0];
+  }
+
+  int insert(Key item){
     _content.add(item);
-    _swim(_content.length - 1);
+    return _swim(_content.length - 1);
   }
 
   Key delMax(){
@@ -76,7 +80,7 @@ class BinaryHeap<Key extends Comparable>{
     if(_content.length == 1){
       return _content.removeLast();
     }
-    exch(_content, 0, _content.length - 1);
+    _exch(0, _content.length - 1);
     Key max = _content.removeLast();
     _sink(0);
     return max;
@@ -84,5 +88,20 @@ class BinaryHeap<Key extends Comparable>{
 
   bool isEmpty(){
     return _content.isEmpty;
+  }
+
+  int get length{
+    return _content.length;
+  }
+
+  void exchangeRootSafe(Key newItem){
+    assert(_content.length >= 1);
+    _content[0] = newItem;
+    _sink(0);
+  }
+
+  void exchangeRootUnSafe(Key newItem){
+    assert(_content.length >= 1);
+    _content[0] = newItem;
   }
 }
