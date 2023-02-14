@@ -1,3 +1,14 @@
+// void main(List<String> args) {
+//   final board = Board(
+//     [
+//       [1, 2, 3],
+//       [4, 5, 6],
+//       [7, 0, 8]
+//     ],
+//   );
+//   print(Board.withExchange(board, 2, 1, 2, 2));
+// }
+
 class Board {
   // create a board from an n-by-n array of tiles,
   // where tiles[row][col] = tile at (row, col)
@@ -5,17 +16,22 @@ class Board {
 
   final List<List<int>> tiles;
 
+  bool get solvable{
+    return !(tiles[tiles.length - 1][tiles.length - 1] == 0);
+  }
+
   @override
   String toString() {
-    var description = tiles.length.toString();
+    var description = "";
     for (var tileRow in tiles) {
-      description += " ${tileRow.join(" ")}";
+      description += " ${tileRow.join(",")}";
     }
     return description;
   }
 
-  // // board dimension n
-  // public int dimension()
+  int dimension() {
+    return tiles.length;
+  }
 
   // number of tiles out of place
   int hamming() {
@@ -23,7 +39,7 @@ class Board {
     for (int i = 0; i < tiles.length; i++) {
       for (int j = 0; j < tiles.length; j++) {
         var actualValue = tiles[i][j];
-        var expectedValue = i * j + j + 1;
+        var expectedValue = i * tiles.length + j + 1;
         if (actualValue != 0 && actualValue != expectedValue) {
           result++;
         }
@@ -104,16 +120,17 @@ class Board {
 
   factory Board.withExchange(
       Board from, int row1, int col1, int row2, int col2) {
-    final newTiles = List<List<int>>.filled(
-        from.tiles.length, List<int>.filled(from.tiles.length, 0));
+    final newTiles = List<List<int>>.empty(growable: true);
     for (int row = 0; row < from.tiles.length; row++) {
+      newTiles.add(List.filled(from.tiles.length, 0));
       for (int col = 0; col < from.tiles.length; col++) {
         if (row1 == row && col1 == col) {
           newTiles[row][col] = from.tiles[row2][col2];
         } else if (row2 == row && col2 == col) {
           newTiles[row][col] = from.tiles[row1][col1];
+        } else {
+          newTiles[row][col] = from.tiles[row][col];
         }
-        newTiles[row][col] = from.tiles[row][col];
       }
     }
     return Board(newTiles);

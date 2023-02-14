@@ -16,7 +16,6 @@ class MinBinaryHeap<Key extends Comparable>{
 
   int _leftChildIndex(int nodeIndex){
     assert(nodeIndex >= 0);
-    assert(nodeIndex < _content.length - 1);
     if(nodeIndex == 0){
       return 1;
     }
@@ -25,7 +24,7 @@ class MinBinaryHeap<Key extends Comparable>{
 
   int _rightChildIndex(int nodeIndex){
     assert(nodeIndex >= 0);
-    assert(nodeIndex < _content.length - 2);
+    //assert(nodeIndex < _content.length - 2);
     if(nodeIndex == 0){
       return 2;
     }
@@ -55,7 +54,7 @@ class MinBinaryHeap<Key extends Comparable>{
       int leftChildIndex = _leftChildIndex(nodeIndex);
       int rightChildIndex = _rightChildIndex(nodeIndex);
       int childIndex = leftChildIndex;
-      if(leftChildIndex < _content.length - 1 && _larger(leftChildIndex, rightChildIndex)){
+      if(rightChildIndex < _content.length && _larger(leftChildIndex, rightChildIndex)){
         childIndex = rightChildIndex;
       }
       if(!_larger(nodeIndex, childIndex)){
@@ -71,7 +70,7 @@ class MinBinaryHeap<Key extends Comparable>{
     return _swim(_content.length - 1);
   }
 
-  Key delMax(){
+  Key delMin(){
     if(_content.isEmpty){
       throw Exception("The binary heap is empty!");
     }
