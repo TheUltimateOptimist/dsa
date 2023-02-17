@@ -83,6 +83,13 @@ class MinBinaryHeap<Key extends Comparable>{
     return max;
   }
 
+  Key getMin(){
+    if(_content.isEmpty){
+      throw Exception("The binary heap is empty!");
+    }
+    return _content[0];
+  }
+
   bool isEmpty(){
     return _content.isEmpty;
   }

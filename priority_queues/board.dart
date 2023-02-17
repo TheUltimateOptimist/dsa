@@ -9,6 +9,8 @@
 //   print(Board.withExchange(board, 2, 1, 2, 2));
 // }
 
+import 'search_node.dart';
+
 class Board {
   // create a board from an n-by-n array of tiles,
   // where tiles[row][col] = tile at (row, col)
@@ -16,7 +18,7 @@ class Board {
 
   final List<List<int>> tiles;
 
-  bool get solvable{
+  bool get solvable {
     return !(tiles[tiles.length - 1][tiles.length - 1] == 0);
   }
 
@@ -136,6 +138,19 @@ class Board {
     return Board(newTiles);
   }
 
+  bool isIdentical(Board? other) {
+    if (other == null) {
+      return false;
+    }
+    for (int row = 0; row < tiles.length; row++) {
+      for (int col = 0; col < tiles.length; col++) {
+        if (tiles[row][col] != other.tiles[row][col]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
   // // a board that is obtained by exchanging any pair of tiles
   // public Board twin()
 }
