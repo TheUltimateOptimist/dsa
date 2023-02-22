@@ -1,10 +1,12 @@
+import 'binary_search_map.dart';
 import 'linked_list_map.dart';
 import 'unordered_list_map.dart';
 
 void main(List<String> args) {
   final linkedListMap = LinkedListMap<int, int>();
   final unorderedListMap = UnorderedListMap<int, int>();
-  testMap(unorderedListMap);
+  final binarySearchMap = BinarySearchMap<int, int>();
+  testMap(binarySearchMap);
 }
 
 abstract class CustomMap<Key, Value>{
