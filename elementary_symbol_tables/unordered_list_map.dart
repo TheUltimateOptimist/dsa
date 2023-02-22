@@ -1,6 +1,6 @@
 import 'custom_map.dart';
 
-class Pair<Key, Value>{
+class Pair<Key, Value> {
   Pair(this.key, this.value);
   Key key;
   Value value;
@@ -11,12 +11,12 @@ class Pair<Key, Value>{
   }
 }
 
-class UnorderedListMap<Key, Value> extends CustomMap<Key, Value>{
+class UnorderedListMap<Key, Value> extends CustomMap<Key, Value> {
   final content = List<Pair<Key, Value>>.empty(growable: true);
   @override
-  get(key) {
-    for(var pair in content){
-      if(pair.key == key){
+  get(Key key) {
+    for (var pair in content) {
+      if (pair.key == key) {
         return pair.value;
       }
     }
@@ -24,7 +24,7 @@ class UnorderedListMap<Key, Value> extends CustomMap<Key, Value>{
   }
 
   @override
-  bool hasKey(key) => content.any((pair) => pair.key == key);
+  bool hasKey(Key key) => content.any((pair) => pair.key == key);
 
   @override
   bool get isEmpty => content.isEmpty;
@@ -33,9 +33,9 @@ class UnorderedListMap<Key, Value> extends CustomMap<Key, Value>{
   Iterable<Key> get keys => content.map<Key>((pair) => pair.key);
 
   @override
-  void put(key, value){
-     for(var pair in content){
-      if(pair.key == key){
+  void put(Key key, value) {
+    for (var pair in content) {
+      if (pair.key == key) {
         pair.value = value;
         return;
       }
@@ -44,11 +44,10 @@ class UnorderedListMap<Key, Value> extends CustomMap<Key, Value>{
   }
 
   @override
-  void remove(key) => content.removeWhere((pair) => pair.key == key);
+  void remove(Key key) => content.removeWhere((pair) => pair.key == key);
 
   @override
   int get size => content.length;
-
 
   @override
   String toString() {
