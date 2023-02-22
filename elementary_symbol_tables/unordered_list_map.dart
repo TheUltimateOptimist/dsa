@@ -14,7 +14,7 @@ class Pair<Key, Value> {
 class UnorderedListMap<Key, Value> extends CustomMap<Key, Value> {
   final content = List<Pair<Key, Value>>.empty(growable: true);
   @override
-  get(Key key) {
+  Value? get(Key key) {
     for (var pair in content) {
       if (pair.key == key) {
         return pair.value;
