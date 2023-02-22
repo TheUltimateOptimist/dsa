@@ -13,7 +13,7 @@ class LinkedListMap<Key, Value> implements CustomMap<Key, Value> {
   int size = 0;
 
   @override
-  get(Key key) {
+  Value? get(Key key) {
     return _get(root, key);
   }
 
