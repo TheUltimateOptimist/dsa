@@ -1,15 +1,5 @@
 import 'custom_map.dart';
-
-class Pair<Key, Value> {
-  Pair(this.key, this.value);
-  Key key;
-  Value value;
-
-  @override
-  String toString() {
-    return "$key:$value";
-  }
-}
+import 'pair.dart';
 
 class UnorderedListMap<Key, Value> extends CustomMap<Key, Value> {
   final content = List<Pair<Key, Value>>.empty(growable: true);
