@@ -26,5 +26,5 @@ abstract class OrderedOperations<Key extends Comparable, Value>{
   ///number of keys in [low..high]
   ///
   ///low and high are inclusive
-  Iterable<Key> keys(Key low, Key high);
+  Iterable<Key> keysInRange(Key low, Key high);
 }
