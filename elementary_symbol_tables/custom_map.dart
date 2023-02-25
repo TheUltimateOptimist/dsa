@@ -20,9 +20,10 @@ abstract class CustomMap<Key, Value>{
 }
 
 void testMap(CustomMap<int, int> map){
-  for(int i = 0; i < 10; i++){
+  for(int i = 0; i < 10; i+=2){
     map.put(i, i);
   }
+  map.put(5, 100);
   print(map.hasKey(5));
   print(map.get(5));
   print(map.hasKey(100));
@@ -30,7 +31,7 @@ void testMap(CustomMap<int, int> map){
   print(map.keys);
   print(map);
   print(map.size);
-  for(int i = 0; i < 10; i++){
+  for(int i = 0; i < 10; i+=2){
     map.remove(i);
   }
   print(map.keys);

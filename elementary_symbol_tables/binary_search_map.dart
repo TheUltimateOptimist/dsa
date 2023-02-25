@@ -1,40 +1,39 @@
 import 'custom_map.dart';
+import 'ordered_operations.dart';
 import 'pair.dart';
 
 class BinarySearchMap<Key extends Comparable, Value>
-    implements CustomMap<Key, Value> {
+    implements CustomMap<Key, Value>, OrderedOperations<Key, Value> {
   final _content = List<Pair<Key, Value>>.empty(growable: true);
 
-  ///returns index of the given key
-  ///
-  ///-1 -> given key is smaller than all of the keys
-  ///
-  ///-2 -> given key is greater than all of the keys
-  int _index(Key key, int low, int high) {
-    if(low == high && _content[low].key != key){
-      return low == 0 && _content[low].key.compareTo(key) == 1 ? -1 : -2;
+  @override
+  int rank(Key key) {
+    int low = 0; 
+    int high = size - 1;
+    while(low <= high){
+      int middle = (low + high) ~/ 2;
+      if(key.compareTo(_content[middle].key) == -1){
+        high = middle - 1;
+      }
+      else if(key.compareTo(_content[middle].key) == 1){
+        low = middle + 1;
+      }
+      else{
+        return middle;
+      }
     }
-    else if(low == high){
-      return low;
-    }
-    var middle = low + (high - low) ~/ 2;
-    int cmp = key.compareTo(_content[middle].key);
-    if (cmp < 0) {
-      return _index(key, low, middle - 1);
-    } else if (cmp > 0) {
-      return _index(key, middle + 1, high);
-    } else {
-      return middle;
-    }
+    return low;
   }
+
 
   @override
   Value? get(Key key) {
-    if (isEmpty) {
-      return null;
+    if (isEmpty) return null;
+    int i = rank(key);
+    if(i < size && _content[i].key.compareTo(key) == 0){
+      return _content[i].value;
     }
-    var index = _index(key, 0, size - 1);
-    return index >= 0 ? _content[index].value : null;
+    return null;
   }
 
   @override
@@ -51,31 +50,72 @@ class BinarySearchMap<Key extends Comparable, Value>
 
   @override
   void put(Key key, Value value) {
-    if (_content.isEmpty) {
+    var keyRank = rank(key);
+    if (_content.isEmpty || keyRank >= size) {
       _content.add(Pair(key, value));
       return;
     }
-    var index = _index(key, 0, size - 1);
-    if(index == -1){
-      _content.insert(0, Pair(key, value));
-    }
-    else if(index == -2){
-      _content.add(Pair(key, value));
+    if(_content[keyRank].key.compareTo(key) == 0){
+      _content[keyRank].value = value;
     }
     else{
-      _content[index].value = value;
+      _content.insert(keyRank, Pair(key, value));
     }
   }
 
   @override
   void remove(Key key) {
-    assert(!_content.isEmpty, "Error: Can not remove from an empty map");
+    assert(!isEmpty, "Error: Can not remove from an empty map");
     assert(_content.any((pair) => pair.key == key),
         "Error: Can not remove an element that does not exist");
-    var rank = _index(key, 0, size - 1);
-    _content.removeAt(rank);
+    var keyRank = rank(key);
+    _content.removeAt(keyRank);
   }
 
   @override
   int get size => _content.length;
+
+  @override
+  Key ceiling(Key key) {
+    assert(!isEmpty);
+    var keyRank = rank(key);
+    assert(keyRank < size);
+    return _content[keyRank].key;
+  }
+
+  @override
+  void deleteMax() => _content.removeLast();
+
+  @override
+  void deleteMin() => _content.removeAt(0);
+
+  @override
+  Key floor(Key key) {
+    assert(!isEmpty);
+    var keyRank = rank(key);
+    if(keyRank == 0){
+      assert(key.compareTo(_content[keyRank].key) >= 0);
+      return _content[keyRank].key;
+    }
+    return _content[keyRank - 1].key;
+  }
+
+  @override
+  Key max() => _content.last.key;
+
+  @override
+  Key min() => _content.first.key;
+
+  @override
+  Key select(int k) => _content[k].key;
+
+  @override
+  Iterable<Key> keysInRange(Key low, Key high) {
+   var start = rank(low);
+   var end = rank(high);
+   if(end < size && low.compareTo(_content[end].key) == 0){
+    end++;
+   }
+   return _content.sublist(start, end).map((pair) => pair.key);
+}
 }
