@@ -1,21 +1,21 @@
 abstract class OrderedOperations<Key extends Comparable, Value>{
   ///smallest key
-  Key min();
+  Key? min();
 
   ///largest key
-  Key max();
+  Key? max();
 
   ///largest key less than or equal to key
-  Key floor(Key key);
+  Key? floor(Key key);
 
   ///smallest key greater than or equal to key
-  Key ceiling(Key key);
+  Key? ceiling(Key key);
 
   ///number of keys less than key
   int rank(Key key);
 
   ///key of rank k
-  Key select(int k);
+  Key? select(int k);
 
   ///delete smallest key
   void deleteMin();
