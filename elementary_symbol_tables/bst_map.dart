@@ -10,9 +10,13 @@ class Node<Key, Value> {
   Node<Key, Value>? right;
 }
 
-class BSTMap<Key extends Comparable, Value>
-    implements CustomMap<Key, Value>, OrderedOperations<Key, Value> {
+class BSTMap<Key extends Comparable, Value> extends Iterable<Key> with Iterator<Key>
+    implements CustomMap<Key, Value>, OrderedOperations<Key, Value>{
   Node<Key, Value>? root;
+  Node<Key, Value>? _currentNode;
+  Key? _currentValue;
+
+  BSTMap.initial(this.root) : _currentNode = root;
 
   @override
   Value? get(Key key) {
@@ -254,5 +258,43 @@ class BSTMap<Key extends Comparable, Value>
     var rightIs = _isBST(x.right, x.key, max);
     if(leftIs && rightIs) return true;
     return false;
+  }
+  
+  @override
+  Iterator<Key> get iterator => BSTMap.initial(root);
+  
+  @override
+  Key get current => _currentValue!;
+  
+  @override
+  bool moveNext() {
+    //morris traversal
+    while(_currentNode != null){
+      if(_currentNode!.left == null){
+        _currentValue = _currentNode!.key;
+        _currentNode = _currentNode!.right;
+        return true;
+      }
+      else{
+        //find the predecessor
+        Node<Key, Value> predecessor = _currentNode!.left!;
+        while(predecessor.right != _currentNode && predecessor.right != null){
+          predecessor = predecessor.right!;
+        }
+        if(predecessor.right == null){
+          predecessor.right = _currentNode;
+          _currentNode = _currentNode!.left;
+        }
+        else{
+          predecessor.right = null;
+          _currentValue = _currentNode!.key;
+          _currentNode = _currentNode!.right;
+          return true;
+        }
+      }
+    }
+    return false;
   } 
+
+  
 }
