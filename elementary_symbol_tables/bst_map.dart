@@ -243,4 +243,16 @@ class BSTMap<Key extends Comparable, Value>
     else
       return x; //leftSize == k
   }
+
+  bool isBST() => _isBST(root, null, null);
+
+  bool _isBST(Node<Key, Value>? x, Key? min, Key? max){
+    if(x == null) return true;
+    if(min != null && min.compareTo(x.key) >= 0) return false;
+    if(max != null && max.compareTo(x.key) <= 0) return false;
+    var leftIs = _isBST(x.left, min, x.key);
+    var rightIs = _isBST(x.right, x.key, max);
+    if(leftIs && rightIs) return true;
+    return false;
+  } 
 }
